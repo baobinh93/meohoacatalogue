@@ -1,29 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Catalog sản phẩm</title>
-  <link rel="stylesheet" href="./css/style.css" />
-</head>
-<body>
-  <header class="header">
-    <div class="container">
-      <h1 class="logo">MÈO HOA</h1>
-      <p class="subtitle">Catalog sản phẩm</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meo Hoa Boutique</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <h1 class="logo">MÈO HOA</h1>
+        <p class="subtitle">Catalog sản phẩm</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="toolbar">
+        <input id="searchInput" type="text" placeholder="Tìm sản phẩm..." />
+        <button id="refreshBtn">
+          ↻
+          <span class="laptop-only"> Làm mới </span>
+        </button>
+      </section>
+
+      <div id="status" class="status">Đang tải sản phẩm...</div>
+      <section id="productGrid" class="product-grid"></section>
+    </main>
+
+    <div
+      id="productModal"
+      class="modal"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="modal-backdrop" data-close-modal></div>
+      <div class="modal-content">
+        <button
+          id="modalClose"
+          class="modal-close"
+          type="button"
+          aria-label="Đóng"
+        >
+          ×
+        </button>
+        <div class="modal-image-wrap">
+          <img id="modalImage" class="modal-image" src="" alt="" />
+        </div>
+        <div class="modal-info">
+          <h2 id="modalName"></h2>
+          <div id="modalPrice" class="modal-price"></div>
+        </div>
+      </div>
     </div>
-  </header>
-
-  <main class="container">
-    <section class="toolbar">
-      <input id="searchInput" type="text" placeholder="Tìm sản phẩm..." />
-      <button id="refreshBtn">↻ Làm mới</button>
-    </section>
-
-    <div id="status" class="status">Đang tải sản phẩm...</div>
-    <section id="productGrid" class="product-grid"></section>
-  </main>
-
-  <script src="./js/app.js"></script>
-</body>
+    <script src="./app.js"></script>
+  </body>
 </html>
