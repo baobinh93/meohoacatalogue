@@ -80,6 +80,12 @@ body.modal-open {
   margin: 0 auto;
 }
 
+.flex{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
 
 /* ========================================
    DESKTOP / MOBILE ONLY
@@ -203,12 +209,70 @@ body.modal-open {
 
 
 /* ========================================
+   SORT BUTTON
+======================================== */
+.sort-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-self: center;
+}
+
+.sort-buttons button {
+
+  height: 48px;
+  padding: 0 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  flex-wrap: nowrap;
+  background: #fff;
+  color: var(--text);
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background .2s ease,
+    color .2s ease,
+    border-color .2s ease;
+}
+
+.sort-buttons button:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+}
+
+.sort-buttons button.active {
+  background: var(--pink);
+  border-color: var(--pink);
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  .sort-buttons {
+    gap: 7px;
+   
+  }
+
+  .sort-buttons button {
+    height: 40px;
+    font-size: 12px;
+    border-radius: 10px;
+  }
+}
+/* ========================================
    REFRESH BUTTON
 ======================================== */
 #refreshBtn {
   height: 48px;
   min-width: 48px;
-
+  display: flex;
+  justify-items: center;
+  justify-content: space-around;
+  align-items: center;
+  gap: 8px;
   padding: 0 18px;
 
   border: none;
@@ -523,7 +587,7 @@ body.modal-open {
   }
 
   .laptop-only {
-    display: inline-block;
+    display: none;
   }
 
   .mobile-only {

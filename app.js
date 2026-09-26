@@ -9,6 +9,10 @@ const modal = document.getElementById("productModal"),
   modalName = document.getElementById("modalName"),
   modalPrice = document.getElementById("modalPrice"),
   modalClose = document.getElementById("modalClose");
+const sortLowBtn = document.getElementById("sortLowBtn");
+const sortHighBtn = document.getElementById("sortHighBtn");
+
+let sortMode = "";
 let products = [];
 function formatPrice(price) {
   const n = Number(price);
@@ -56,6 +60,42 @@ function renderProducts(list) {
   });
   productGrid.appendChild(f);
 }
+function applyFilters() {
+  const keyword = searchInput.value.toLowerCase().trim();
+
+  let filtered = products.filter((product) =>
+    product.name.toLowerCase().includes(keyword),
+  );
+
+  if (sortMode === "low") {
+    filtered.sort((a, b) => Number(a.price) - Number(b.price));
+  }
+
+  if (sortMode === "high") {
+    filtered.sort((a, b) => Number(b.price) - Number(a.price));
+  }
+
+  renderProducts(filtered);
+
+  status.textContent = `${filtered.length} sản phẩm`;
+}
+sortLowBtn.addEventListener("click", () => {
+  sortMode = "low";
+
+  sortLowBtn.classList.add("active");
+  sortHighBtn.classList.remove("active");
+
+  applyFilters();
+});
+
+sortHighBtn.addEventListener("click", () => {
+  sortMode = "high";
+
+  sortHighBtn.classList.add("active");
+  sortLowBtn.classList.remove("active");
+
+  applyFilters();
+});
 async function loadProducts() {
   refreshBtn.disabled = true;
   try {
