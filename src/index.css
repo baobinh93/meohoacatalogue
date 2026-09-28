@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cream: #fffdf8;
+  --ink: #5d4f54;
+  --rose: #f7cfd5;
+  --rose-deep: #d78696;
+  --mint: #dff3e9;
+  --champagne: #f7edcf;
+  --lavender: #eee8f8;
+  --line: #f0e5df;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: "DM Sans", sans-serif;
+  background: var(--cream);
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.shell {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.brand-font {
+  font-family: "Fraunces", serif;
+}
+
+.product-card {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 7px 24px rgba(125, 87, 93, 0.07);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 13px 30px rgba(125, 87, 93, 0.11);
+}
+
+.soft-card {
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 24px rgba(125, 87, 93, 0.06);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-rise {
+  animation: rise 0.2s ease-out;
+}
+
+.petal {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border-radius: 999px 999px 999px 2px;
+  background: #f6d7dc;
+  opacity: 0.75;
+  transform: rotate(25deg);
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .shell {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+}
+
+@media (max-width: 767px) {
+  .mobile-safe {
+    padding-bottom: 92px;
+  }
+}
