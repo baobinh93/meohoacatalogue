@@ -11,9 +11,23 @@ export default function OrderSuccess({
   onClose,
 }: OrderSuccessProps) {
   return (
-    <div className="flex min-h-[420px] flex-col items-center justify-center px-6 py-10 text-center text-ink">
+    <div
+      className="
+        flex
+        min-h-[380px]
+        flex-col
+        items-center
+        justify-center
+        px-6
+        py-8
+        text-center
+        text-ink
+        sm:min-h-[420px]
+        sm:py-10
+      "
+    >
       {/* Success icon */}
-      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#f8eeee]">
+      <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#f8eeee]">
         <Check
           size={30}
           strokeWidth={2}
@@ -56,7 +70,18 @@ export default function OrderSuccess({
       <button
         type="button"
         onClick={onClose}
-        className="mt-6 min-h-11 rounded-xl bg-champagne px-8 text-[15px] font-bold text-[#705b44] transition hover:opacity-90"
+        className="
+          mt-6
+          min-h-11
+          rounded-xl
+          bg-champagne
+          px-8
+          text-[15px]
+          font-bold
+          text-[#705b44]
+          transition
+          hover:opacity-90
+        "
       >
         ĐÓNG
       </button>

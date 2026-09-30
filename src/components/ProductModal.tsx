@@ -50,8 +50,6 @@ export function ProductModal({
   useEffect(() => {
     if (!product) return;
 
-    // Mỗi lần mở sản phẩm mới,
-    // luôn bắt đầu từ màn hình sản phẩm.
     setView("product");
     setSuccessOrderId("");
 
@@ -89,7 +87,23 @@ export function ProductModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-[#554148]/35 p-3 sm:items-center"
+      className="
+        fixed
+        inset-0
+        z-50
+        flex
+        items-end
+        justify-center
+        bg-[#554148]/35
+        p-3
+        sm:items-center
+      "
+      style={{
+        height: "100dvh",
+        minHeight: "100dvh",
+        paddingBottom:
+          "max(0.75rem, env(safe-area-inset-bottom))",
+      }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="product-modal-title"
@@ -99,8 +113,23 @@ export function ProductModal({
         }
       }}
     >
-      <div className="modal-rise relative w-full max-w-md overflow-hidden rounded-[28px] bg-cream shadow-2xl">
-
+      <div
+        className="
+          modal-rise
+          relative
+          flex
+          min-h-0
+          w-full
+          max-w-md
+          flex-col
+          overflow-hidden
+          rounded-[28px]
+          bg-cream
+          shadow-2xl
+          max-h-[calc(100dvh-24px)]
+          sm:max-h-[90dvh]
+        "
+      >
         {/* =====================================
             PRODUCT VIEW
         ===================================== */}
@@ -111,14 +140,37 @@ export function ProductModal({
               type="button"
               aria-label="Đóng cửa sổ sản phẩm"
               onClick={onClose}
-              className="absolute right-3 top-3 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#f6e8e8] text-[#74555d] focus:outline-none focus:ring-2 focus:ring-rose-deep"
+              className="
+                absolute
+                right-3
+                top-3
+                z-20
+                inline-flex
+                h-10
+                w-10
+                shrink-0
+                items-center
+                justify-center
+                rounded-full
+                bg-[#f6e8e8]
+                text-[#74555d]
+                focus:outline-none
+                focus:ring-2
+                focus:ring-rose-deep
+              "
             >
               <X size={20} />
             </button>
 
             {/* Product image */}
             <img
-              className="h-auto w-full rounded-t-[28px] object-cover"
+              className="
+                max-h-[45dvh]
+                w-full
+                shrink-0
+                rounded-t-[28px]
+                object-cover
+              "
               src={getCloudinaryImageUrl(
                 product.image,
                 400,
@@ -127,7 +179,15 @@ export function ProductModal({
             />
 
             {/* Product information */}
-            <div className="p-5">
+            <div
+              className="
+                min-h-0
+                overflow-y-auto
+                overscroll-contain
+                p-5
+                [-webkit-overflow-scrolling:touch]
+              "
+            >
               <h2
                 id="product-modal-title"
                 className="mt-0 text-[23px] font-bold text-ink"
@@ -149,14 +209,26 @@ export function ProductModal({
                     )}
               </p>
 
-              {/* Order button */}
               <div className="mt-4 flex justify-center">
                 <button
                   type="button"
                   onClick={() =>
                     setView("order")
                   }
-                  className="flex min-h-11 items-center justify-center rounded-xl bg-champagne px-4 text-[15px] font-bold text-[#705b44] transition hover:opacity-90"
+                  className="
+                    flex
+                    min-h-11
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-champagne
+                    px-4
+                    text-[15px]
+                    font-bold
+                    text-[#705b44]
+                    transition
+                    hover:opacity-90
+                  "
                 >
                   ĐẶT HÀNG
                 </button>
@@ -188,7 +260,6 @@ export function ProductModal({
             onClose={onClose}
           />
         )}
-
       </div>
     </div>
   );

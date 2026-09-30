@@ -18,29 +18,37 @@ interface FormData {
   address: string;
   note: string;
 }
+const formatPrice = (price: number | string) => {
+  if (!price) return "";
 
+  return Number(price).toLocaleString("vi-VN");
+};
 export default function OrderForm({
   product,
   onBack,
   onClose,
   onSuccess,
 }: OrderFormProps) {
-  const [formData, setFormData] = useState<FormData>({
-    customerName: "",
-    phone: "",
-    deliveryMethod: "shop",
-    address: "",
-    note: "",
-  });
+  const [formData, setFormData] =
+    useState<FormData>({
+      customerName: "",
+      phone: "",
+      deliveryMethod: "shop",
+      address: "",
+      note: "",
+    });
 
   const [errors, setErrors] = useState<
     Partial<Record<keyof FormData, string>>
   >({});
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] =
+    useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement
+    >,
   ) => {
     const { name, value } = e.target;
 
@@ -75,20 +83,25 @@ export default function OrderForm({
   };
 
   const validateForm = () => {
-    const newErrors: Partial<Record<keyof FormData, string>> = {};
+    const newErrors: Partial<
+      Record<keyof FormData, string>
+    > = {};
 
     if (!formData.customerName.trim()) {
-      newErrors.customerName = "Vui lòng nhập họ và tên";
+      newErrors.customerName =
+        "Vui lòng nhập họ và tên";
     }
 
     if (!formData.phone.trim()) {
-      newErrors.phone = "Vui lòng nhập số điện thoại";
+      newErrors.phone =
+        "Vui lòng nhập số điện thoại";
     } else if (
       !/^(0|\+84)[0-9]{9,10}$/.test(
         formData.phone.trim(),
       )
     ) {
-      newErrors.phone = "Số điện thoại không hợp lệ";
+      newErrors.phone =
+        "Số điện thoại không hợp lệ";
     }
 
     if (
@@ -119,12 +132,10 @@ export default function OrderForm({
         customer_name:
           formData.customerName.trim(),
         phone: formData.phone.trim(),
-
         address:
           formData.deliveryMethod === "shop"
             ? "Nhận tại shop"
             : formData.address.trim(),
-
         note: formData.note.trim(),
       });
 
@@ -148,14 +159,43 @@ export default function OrderForm({
   };
 
   return (
-    <div className="flex max-h-[90vh] flex-col text-[15px] text-ink">
-
-      {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#eadfe0] px-5 py-4">
+    <div
+      className="
+        flex
+        min-h-0
+        flex-1
+        flex-col
+        text-[15px]
+        text-ink
+      "
+    >
+      {/* =====================================
+          HEADER - CỐ ĐỊNH
+      ===================================== */}
+      <div
+        className="
+          flex
+          shrink-0
+          items-center
+          justify-between
+          border-b
+          border-[#eadfe0]
+          px-5
+          py-4
+        "
+      >
         <button
           type="button"
           onClick={onBack}
-          className="flex items-center gap-1 text-[14px] text-[#7f7173] transition hover:text-ink"
+          className="
+            flex
+            items-center
+            gap-1
+            text-[14px]
+            text-[#7f7173]
+            transition
+            hover:text-ink
+          "
         >
           <ArrowLeft
             size={17}
@@ -173,15 +213,38 @@ export default function OrderForm({
           type="button"
           onClick={onClose}
           aria-label="Đóng"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#f6e8e8] text-[#74555d] transition hover:opacity-80"
+          className="
+            inline-flex
+            h-10
+            w-10
+            shrink-0
+            items-center
+            justify-center
+            rounded-full
+            bg-[#f6e8e8]
+            text-[#74555d]
+            transition
+            hover:opacity-80
+          "
         >
           <X size={20} />
         </button>
       </div>
 
-      {/* Content */}
-      <div className="overflow-y-auto px-5 py-5">
-
+      {/* =====================================
+          CONTENT - CHỈ PHẦN NÀY SCROLL
+      ===================================== */}
+      <div
+        className="
+          min-h-0
+          flex-1
+          overflow-y-auto
+          overscroll-contain
+          px-5
+          py-5
+          [-webkit-overflow-scrolling:touch]
+        "
+      >
         {/* Product summary */}
         <div className="mb-6 flex items-center gap-3 rounded-2xl bg-[#f8eeee] p-3">
           <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-white">
@@ -198,12 +261,11 @@ export default function OrderForm({
             </h3>
 
             <p className="mt-1 text-[14px] font-bold text-[#c06d81]">
-              {product.price}
+              {formatPrice( product.price)}
             </p>
           </div>
         </div>
 
-        {/* Section title */}
         <h3 className="mb-4 text-[16px] font-bold text-ink">
           Thông tin nhận hàng
         </h3>
@@ -213,7 +275,6 @@ export default function OrderForm({
           onSubmit={handleSubmit}
           className="space-y-4"
         >
-
           {/* Họ và tên */}
           <div>
             <label
@@ -291,8 +352,6 @@ export default function OrderForm({
             </label>
 
             <div className="grid grid-cols-2 gap-3">
-
-              {/* Nhận tại shop */}
               <label
                 className={`flex cursor-pointer items-center gap-2 rounded-xl border px-4 py-3 text-[14px] transition ${
                   formData.deliveryMethod ===
@@ -320,7 +379,6 @@ export default function OrderForm({
                 <span>Nhận tại shop</span>
               </label>
 
-              {/* Nhận tại nhà */}
               <label
                 className={`flex cursor-pointer items-center gap-2 rounded-xl border px-4 py-3 text-[14px] transition ${
                   formData.deliveryMethod ===
@@ -347,11 +405,10 @@ export default function OrderForm({
 
                 <span>Nhận tại nhà</span>
               </label>
-
             </div>
           </div>
 
-          {/* Địa chỉ - chỉ hiện khi nhận tại nhà */}
+          {/* Địa chỉ */}
           {formData.deliveryMethod ===
             "home" && (
             <div>
@@ -385,15 +442,14 @@ export default function OrderForm({
                 </p>
               )}
 
-              {/* Phí ship */}
-              <p className="mt-2 text-[12px] leading-relaxed text-[#9a8d90]">
-                Giá trên chưa gồm phí ship và
-                phí đóng gói.
+              <p className="mt-2 text-[12px] leading-relaxed  text-[#9a8d90]">
+                 Giá trên chưa gồm phí ship và
+                phí đóng gói. 
               </p>
             </div>
           )}
 
-          {/* Ghi chú - luôn hiện */}
+          {/* Ghi chú */}
           <div>
             <label
               htmlFor="note"
@@ -412,27 +468,67 @@ export default function OrderForm({
               onChange={handleChange}
               placeholder="Ví dụ: Giao giờ hành chính..."
               rows={3}
-              className="w-full resize-none rounded-xl border border-[#e5dcdc] bg-white px-4 py-3 text-[15px] text-ink outline-none transition placeholder:text-[#aaa0a2] focus:border-[#d9a1aa] focus:ring-2 focus:ring-[#f4dfe2]"
+              className="
+                w-full
+                resize-none
+                rounded-xl
+                border
+                border-[#e5dcdc]
+                bg-white
+                px-4
+                py-3
+                text-[15px]
+                text-ink
+                outline-none
+                transition
+                placeholder:text-[#aaa0a2]
+                focus:border-[#d9a1aa]
+                focus:ring-2
+                focus:ring-[#f4dfe2]
+              "
             />
           </div>
-
         </form>
       </div>
 
-      {/* Footer */}
-      <div className="border-t border-[#eadfe0] bg-cream px-5 py-4">
+      {/* =====================================
+          FOOTER - CỐ ĐỊNH
+      ===================================== */}
+      <div
+        className="
+          shrink-0
+          border-t
+          border-[#eadfe0]
+          bg-cream
+          px-5
+          py-4
+        "
+      >
         <button
           type="submit"
           form="order-form"
           disabled={isSubmitting}
-          className="w-full rounded-xl bg-champagne px-5 py-3 text-[15px] font-bold text-[#705b44] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+          className="
+            w-full
+            rounded-xl
+            bg-champagne
+            px-5
+            py-3
+            text-[15px]
+            font-bold
+            text-[#705b44]
+            transition
+            hover:opacity-90
+            disabled:cursor-not-allowed
+            disabled:opacity-60
+          "
         >
           {isSubmitting
             ? "ĐANG GỬI ĐƠN..."
             : "XÁC NHẬN ĐẶT HÀNG"}
         </button>
       </div>
-
     </div>
   );
 }
+
