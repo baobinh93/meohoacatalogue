@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { X } from "lucide-react";
 import type { Product } from "../types/product";
-
+import { getCloudinaryImageUrl } from '../utils/cloudinary'
 interface ProductModalProps {
   product: Product | null;
   onClose: () => void;
@@ -77,7 +77,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
 
         <img
           className="h-auto w-full rounded-2xl object-cover"
-          src={product.image}
+          src={  getCloudinaryImageUrl(product.image, 800)}
           alt={product.alt}
         />
 

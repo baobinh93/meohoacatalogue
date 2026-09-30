@@ -1,16 +1,12 @@
-export type ProductCategory =
-  | 'basket'
-  | 'cat'
-  | 'corporate'
-  | 'gift'
+export type ProductCategory = "basket" | "cat" | "corporate" | "gift";
 
 export interface Product {
-  id: number
-  name: string
-  price: string
-  image: string
-  alt: string
-  badge: 'CÓ SẴN' | 'THEO YÊU CẦU'
-  badgeType: 'available' | 'custom'
-  categories: ProductCategory[]
+  id: string;
+  name: string;
+  price: string;
+  image: string;
+  alt: string;
+  badge: "available" | "order";
+  categories: ProductCategory[];
+  active: "enable" | "disable";
 }
