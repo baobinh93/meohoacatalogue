@@ -1,5 +1,5 @@
 import type { Product } from "../types/product";
-import { getCloudinaryImageUrl } from '../utils/cloudinary'
+import { getCloudinaryImageUrl, preloadImage } from '../utils/cloudinary'
 interface ProductCardProps {
   product: Product;
   onContact: (product: Product) => void;
@@ -25,6 +25,11 @@ const formatPrice = (price: number | string) => {
   return Number(price).toLocaleString("vi-VN");
 };
 export function ProductCard({ product, onContact }: ProductCardProps) {
+  const imageUrl =
+  getCloudinaryImageUrl(product.image, 400)
+
+const modalImageUrl =
+  getCloudinaryImageUrl(product.image, 800)
   return (
     // <article className="product-card overflow-hidden rounded-[22px]">
     //   <div className="relative aspect-[4/4.2] overflow-hidden bg-champagne">
@@ -70,8 +75,11 @@ export function ProductCard({ product, onContact }: ProductCardProps) {
         <img
           className="h-full w-full object-cover"
           loading="lazy"
-          src={getCloudinaryImageUrl(product.image, 400)}
+          src={imageUrl}
           alt={product.alt}
+          onLoad={() => {
+    preloadImage(modalImageUrl)
+  }}
         />
 
         <span
@@ -79,7 +87,7 @@ export function ProductCard({ product, onContact }: ProductCardProps) {
             "absolute left-2.5 top-2.5 rounded-full px-2.5 py-1 text-[15px] font-bold tracking-[0.08em]",
             product.badge === "available"
               ? "bg-mint text-[#4f7e69]"
-              : "bg-lavender text-[#74648d]",
+              : "bg-[#f8d9de] text-[#a65f6d",
           ].join(" ")}
         >
           {product.badge === "available"?"Có Sẵn" :"Order"}

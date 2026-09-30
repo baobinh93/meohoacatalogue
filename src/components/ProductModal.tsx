@@ -77,7 +77,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
 
         <img
           className="h-auto w-full rounded-2xl object-cover"
-          src={  getCloudinaryImageUrl(product.image, 800)}
+          src={  getCloudinaryImageUrl(product.image, 400)}
           alt={product.alt}
         />
 
