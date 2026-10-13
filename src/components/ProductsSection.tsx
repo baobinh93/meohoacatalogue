@@ -1,14 +1,20 @@
 // import { useMemo, useState } from "react";
 // import type { Product, ProductCategory } from "../types/product";
+
 // import { FilterBar } from "./FilterBar";
 // import { ProductGrid } from "./ProductGrid";
 
 // interface ProductsSectionProps {
 //   products: Product[];
+//   loading: boolean;
 //   onContact: (product: Product) => void;
 // }
 
-// export function ProductsSection({ products, onContact }: ProductsSectionProps) {
+// export function ProductsSection({
+//   products,
+//   loading,
+//   onContact,
+// }: ProductsSectionProps) {
 //   const [activeFilter, setActiveFilter] = useState<
 //     "all" | ProductCategory | "available"
 //   >("available");
@@ -62,24 +68,26 @@
 
 //         <FilterBar activeFilter={activeFilter} onChange={setActiveFilter} />
 
-//         <ProductGrid products={filteredProducts} onContact={onContact} />
+//         <ProductGrid
+//           products={filteredProducts}
+//           loading={loading}
+//           onContact={onContact}
+//         />
 //       </div>
 //     </section>
 //   );
 // }
-import { useMemo, useState } from 'react'
-import type {
-  Product,
-  ProductCategory,
-} from '../types/product'
 
-import { FilterBar } from './FilterBar'
-import { ProductGrid } from './ProductGrid'
+import { useMemo, useState } from "react";
+import type { Product, ProductCategory } from "../types/product";
+
+import { FilterBar } from "./FilterBar";
+import { ProductGrid } from "./ProductGrid";
 
 interface ProductsSectionProps {
-  products: Product[]
-  loading: boolean
-  onContact: (product: Product) => void
+  products: Product[];
+  loading: boolean;
+  onContact: (product: Product) => void;
 }
 
 export function ProductsSection({
@@ -87,55 +95,58 @@ export function ProductsSection({
   loading,
   onContact,
 }: ProductsSectionProps) {
+  const [activeFilter, setActiveFilter] = useState<
+    "all" | ProductCategory | "available"
+  >("available");
 
-  const [activeFilter, setActiveFilter] =
-    useState<
-      'all' | ProductCategory | 'available'
-    >('available')
+  const filteredProducts = useMemo(() => {
+    let result: Product[];
 
+    if (activeFilter === "all") {
+      result = [...products];
+    } else if (activeFilter === "available") {
+      // Chỉ lấy sản phẩm có sẵn
+      result = products.filter((product) => product.badge === "available");
 
-  const filteredProducts =
-    useMemo(() => {
+      // Ưu tiên Mèo Hoa lên đầu
+      result.sort((a, b) => {
+        const aIsMeoHoa = a.categories.includes("cat flower");
+        const bIsMeoHoa = b.categories.includes("cat flower");
 
-      if (activeFilter === 'all') {
-        return products
-      }
+        return Number(bIsMeoHoa) - Number(aIsMeoHoa);
+      });
 
-      if (activeFilter === 'available') {
-        return products.filter(
-          (product) =>
-            product.badge === 'available'
-        )
-      }
+      return result;
+    } else {
+      // Lọc theo danh mục được chọn
+      result = products.filter((product) =>
+        product.categories.includes(activeFilter),
+      );
+    }
 
-      return products.filter((product) =>
-        product.categories.includes(
-          activeFilter
-        )
-      )
+    // Các danh mục khác: Có sẵn trước, Theo yêu cầu sau
+    result.sort((a, b) => {
+      const aAvailable = a.badge === "available";
+      const bAvailable = b.badge === "available";
 
-    }, [products, activeFilter])
+      return Number(bAvailable) - Number(aAvailable);
+    });
 
+    return result;
+  }, [products, activeFilter]);
 
   return (
     <section
       id="products"
       className="relative overflow-hidden pb-9 pt-6 sm:pt-9"
     >
-
       <span className="petal left-[6%] top-5" />
 
-      <span
-        className="petal right-[11%] top-16 bg-mint"
-      />
-
+      <span className="petal right-[11%] top-16 bg-mint" />
 
       <div className="shell relative">
-
         <div className="flex items-end justify-between gap-4">
-
           <div>
-
             <p className="mb-1 text-[15px] font-bold tracking-[0.16em] text-[#c08492]">
               MÈO HOA GIFT SHOP
             </p>
@@ -147,9 +158,7 @@ export function ProductsSection({
             <p className="mt-1.5 text-[15px] text-[#87747a]">
               Mẫu xinh – Có sẵn tại Mèo Hoa
             </p>
-
           </div>
-
 
           <div
             className="hidden text-3xl text-[#e7bdc5] sm:block"
@@ -157,24 +166,16 @@ export function ProductsSection({
           >
             ⌒⌒
           </div>
-
         </div>
 
-
-        <FilterBar
-          activeFilter={activeFilter}
-          onChange={setActiveFilter}
-        />
-
+        <FilterBar activeFilter={activeFilter} onChange={setActiveFilter} />
 
         <ProductGrid
           products={filteredProducts}
           loading={loading}
           onContact={onContact}
         />
-
       </div>
-
     </section>
-  )
+  );
 }

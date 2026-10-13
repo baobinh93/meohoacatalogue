@@ -1,4 +1,9 @@
-export type ProductCategory = "basket" | "cat" | "corporate" | "gift";
+export type ProductCategory =
+  | "basket"
+  | "cat"
+  | "corporate"
+  | "gift"
+  | "cat flower";
 
 export interface Product {
   id: string;

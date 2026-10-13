@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import type { Product } from "../types/product";
@@ -20,13 +19,10 @@ const formatProductName = (name: string) => {
 
   result = result.replace(
     /(\d+(?:[.,]\d+)?)\s*(cm|mm|kg|g|ml|l|m)\b/gi,
-    (_, number, unit) =>
-      `${number} ${unit.toLowerCase()}`,
+    (_, number, unit) => `${number} ${unit.toLowerCase()}`,
   );
 
-  result =
-    result.charAt(0).toUpperCase() +
-    result.slice(1);
+  result = result.charAt(0).toUpperCase() + result.slice(1);
 
   return result;
 };
@@ -37,15 +33,10 @@ const formatPrice = (price: number | string) => {
   return Number(price).toLocaleString("vi-VN");
 };
 
-export function ProductModal({
-  product,
-  onClose,
-}: ProductModalProps) {
-  const [view, setView] =
-    useState<ModalView>("product");
+export function ProductModal({ product, onClose }: ProductModalProps) {
+  const [view, setView] = useState<ModalView>("product");
 
-  const [successOrderId, setSuccessOrderId] =
-    useState("");
+  const [successOrderId, setSuccessOrderId] = useState("");
 
   useEffect(() => {
     if (!product) return;
@@ -59,18 +50,12 @@ export function ProductModal({
       }
     };
 
-    document.addEventListener(
-      "keydown",
-      onKeyDown,
-    );
+    document.addEventListener("keydown", onKeyDown);
 
     document.body.style.overflow = "hidden";
 
     return () => {
-      document.removeEventListener(
-        "keydown",
-        onKeyDown,
-      );
+      document.removeEventListener("keydown", onKeyDown);
 
       document.body.style.overflow = "";
     };
@@ -78,9 +63,7 @@ export function ProductModal({
 
   if (!product) return null;
 
-  const handleOrderSuccess = (
-    orderId: string,
-  ) => {
+  const handleOrderSuccess = (orderId: string) => {
     setSuccessOrderId(orderId);
     setView("success");
   };
@@ -101,8 +84,7 @@ export function ProductModal({
       style={{
         height: "100dvh",
         minHeight: "100dvh",
-        paddingBottom:
-          "max(0.75rem, env(safe-area-inset-bottom))",
+        paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))",
       }}
       role="dialog"
       aria-modal="true"
@@ -165,16 +147,13 @@ export function ProductModal({
             {/* Product image */}
             <img
               className="
-                max-h-[45dvh]
+                max-h-[60dvh]
                 w-full
                 shrink-0
                 rounded-t-[28px]
-                object-cover
+                object-contain
               "
-              src={getCloudinaryImageUrl(
-                product.image,
-                400,
-              )}
+              src={getCloudinaryImageUrl(product.image, 800)}
               alt={product.alt}
             />
 
@@ -192,9 +171,7 @@ export function ProductModal({
                 id="product-modal-title"
                 className="mt-0 text-[23px] font-bold text-ink"
               >
-                {formatProductName(
-                  product.name,
-                )}
+                {formatProductName(product.name)}
               </h2>
 
               <p className="mt-1 text-[15px] font-bold text-[#c06d81]">
@@ -204,17 +181,13 @@ export function ProductModal({
               <p className="mt-3 text-[15px] leading-relaxed text-[#7f7173]">
                 {product.alt === product.name
                   ? "Mèo Hoa sẽ tư vấn mẫu quà, lời nhắn và ngân sách phù hợp cho bạn."
-                  : formatProductName(
-                      product.alt,
-                    )}
+                  : formatProductName(product.alt)}
               </p>
 
               <div className="mt-4 flex justify-center">
                 <button
                   type="button"
-                  onClick={() =>
-                    setView("order")
-                  }
+                  onClick={() => setView("order")}
                   className="
                     flex
                     min-h-11
@@ -243,9 +216,7 @@ export function ProductModal({
         {view === "order" && (
           <OrderForm
             product={product}
-            onBack={() =>
-              setView("product")
-            }
+            onBack={() => setView("product")}
             onClose={onClose}
             onSuccess={handleOrderSuccess}
           />
@@ -255,13 +226,9 @@ export function ProductModal({
             SUCCESS VIEW
         ===================================== */}
         {view === "success" && (
-          <OrderSuccess
-            orderId={successOrderId}
-            onClose={onClose}
-          />
+          <OrderSuccess orderId={successOrderId} onClose={onClose} />
         )}
       </div>
     </div>
   );
 }
-
