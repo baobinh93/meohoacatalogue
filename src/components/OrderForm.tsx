@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { ArrowLeft, X } from "lucide-react";
 import type { Product } from "../types/product";
@@ -29,26 +28,22 @@ export default function OrderForm({
   onClose,
   onSuccess,
 }: OrderFormProps) {
-  const [formData, setFormData] =
-    useState<FormData>({
-      customerName: "",
-      phone: "",
-      deliveryMethod: "shop",
-      address: "",
-      note: "",
-    });
+  const [formData, setFormData] = useState<FormData>({
+    customerName: "",
+    phone: "",
+    deliveryMethod: "shop",
+    address: "",
+    note: "",
+  });
 
-  const [errors, setErrors] = useState<
-    Partial<Record<keyof FormData, string>>
-  >({});
+  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
+    {},
+  );
 
-  const [isSubmitting, setIsSubmitting] =
-    useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement
-    >,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
 
@@ -65,15 +60,11 @@ export default function OrderForm({
     }
   };
 
-  const handleDeliveryChange = (
-    deliveryMethod: "shop" | "home",
-  ) => {
+  const handleDeliveryChange = (deliveryMethod: "shop" | "home") => {
     setFormData((prev) => ({
       ...prev,
       deliveryMethod,
-      ...(deliveryMethod === "shop"
-        ? { address: "" }
-        : {}),
+      ...(deliveryMethod === "shop" ? { address: "" } : {}),
     }));
 
     setErrors((prev) => ({
@@ -83,33 +74,20 @@ export default function OrderForm({
   };
 
   const validateForm = () => {
-    const newErrors: Partial<
-      Record<keyof FormData, string>
-    > = {};
+    const newErrors: Partial<Record<keyof FormData, string>> = {};
 
     if (!formData.customerName.trim()) {
-      newErrors.customerName =
-        "Vui lòng nhập họ và tên";
+      newErrors.customerName = "Vui lòng nhập họ và tên";
     }
 
     if (!formData.phone.trim()) {
-      newErrors.phone =
-        "Vui lòng nhập số điện thoại";
-    } else if (
-      !/^(0|\+84)[0-9]{9,10}$/.test(
-        formData.phone.trim(),
-      )
-    ) {
-      newErrors.phone =
-        "Số điện thoại không hợp lệ";
+      newErrors.phone = "Vui lòng nhập số điện thoại";
+    } else if (!/^(0|\+84)[0-9]{9,10}$/.test(formData.phone.trim())) {
+      newErrors.phone = "Số điện thoại không hợp lệ";
     }
 
-    if (
-      formData.deliveryMethod === "home" &&
-      !formData.address.trim()
-    ) {
-      newErrors.address =
-        "Vui lòng nhập địa chỉ nhận hàng";
+    if (formData.deliveryMethod === "home" && !formData.address.trim()) {
+      newErrors.address = "Vui lòng nhập địa chỉ nhận hàng";
     }
 
     setErrors(newErrors);
@@ -117,9 +95,7 @@ export default function OrderForm({
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent,
-  ) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validateForm()) return;
@@ -129,8 +105,7 @@ export default function OrderForm({
     try {
       const result = await createOrder({
         product_id: product.id,
-        customer_name:
-          formData.customerName.trim(),
+        customer_name: formData.customerName.trim(),
         phone: formData.phone.trim(),
         address:
           formData.deliveryMethod === "shop"
@@ -143,10 +118,7 @@ export default function OrderForm({
         onSuccess?.(result.order_id);
       }
     } catch (error) {
-      console.error(
-        "Không thể đặt hàng:",
-        error,
-      );
+      console.error("Không thể đặt hàng:", error);
 
       alert(
         error instanceof Error
@@ -197,17 +169,12 @@ export default function OrderForm({
             hover:text-ink
           "
         >
-          <ArrowLeft
-            size={17}
-            strokeWidth={1.8}
-          />
+          <ArrowLeft size={17} strokeWidth={1.8} />
 
           <span>Quay lại</span>
         </button>
 
-        <h2 className="text-[20px] font-bold text-ink">
-          Đặt hàng
-        </h2>
+        <h2 className="text-[20px] font-bold text-ink">Đặt hàng</h2>
 
         <button
           type="button"
@@ -261,7 +228,7 @@ export default function OrderForm({
             </h3>
 
             <p className="mt-1 text-[14px] font-bold text-[#c06d81]">
-              {formatPrice( product.price)}
+              {formatPrice(product.price)}
             </p>
           </div>
         </div>
@@ -270,21 +237,14 @@ export default function OrderForm({
           Thông tin nhận hàng
         </h3>
 
-        <form
-          id="order-form"
-          onSubmit={handleSubmit}
-          className="space-y-4"
-        >
+        <form id="order-form" onSubmit={handleSubmit} className="space-y-4">
           {/* Họ và tên */}
           <div>
             <label
               htmlFor="customerName"
               className="mb-1.5 block text-[14px] font-medium text-[#705f62]"
             >
-              Họ và tên{" "}
-              <span className="text-[#c06d81]">
-                *
-              </span>
+              Họ và tên <span className="text-[#c06d81]">*</span>
             </label>
 
             <input
@@ -295,9 +255,7 @@ export default function OrderForm({
               onChange={handleChange}
               placeholder="Nhập họ và tên"
               className={`w-full rounded-xl border bg-white px-4 py-3 text-[15px] text-ink outline-none transition placeholder:text-[#aaa0a2] focus:border-[#d9a1aa] focus:ring-2 focus:ring-[#f4dfe2] ${
-                errors.customerName
-                  ? "border-[#d88b96]"
-                  : "border-[#e5dcdc]"
+                errors.customerName ? "border-[#d88b96]" : "border-[#e5dcdc]"
               }`}
             />
 
@@ -314,10 +272,7 @@ export default function OrderForm({
               htmlFor="phone"
               className="mb-1.5 block text-[14px] font-medium text-[#705f62]"
             >
-              Số điện thoại{" "}
-              <span className="text-[#c06d81]">
-                *
-              </span>
+              Số điện thoại <span className="text-[#c06d81]">*</span>
             </label>
 
             <input
@@ -329,33 +284,25 @@ export default function OrderForm({
               onChange={handleChange}
               placeholder="Nhập số điện thoại"
               className={`w-full rounded-xl border bg-white px-4 py-3 text-[15px] text-ink outline-none transition placeholder:text-[#aaa0a2] focus:border-[#d9a1aa] focus:ring-2 focus:ring-[#f4dfe2] ${
-                errors.phone
-                  ? "border-[#d88b96]"
-                  : "border-[#e5dcdc]"
+                errors.phone ? "border-[#d88b96]" : "border-[#e5dcdc]"
               }`}
             />
 
             {errors.phone && (
-              <p className="mt-1 text-[12px] text-[#c06d81]">
-                {errors.phone}
-              </p>
+              <p className="mt-1 text-[12px] text-[#c06d81]">{errors.phone}</p>
             )}
           </div>
 
           {/* Hình thức nhận hàng */}
           <div>
             <label className="mb-2 block text-[14px] font-medium text-[#705f62]">
-              Hình thức nhận hàng{" "}
-              <span className="text-[#c06d81]">
-                *
-              </span>
+              Hình thức nhận hàng <span className="text-[#c06d81]">*</span>
             </label>
 
             <div className="grid grid-cols-2 gap-3">
               <label
                 className={`flex cursor-pointer items-center gap-2 rounded-xl border px-4 py-3 text-[14px] transition ${
-                  formData.deliveryMethod ===
-                  "shop"
+                  formData.deliveryMethod === "shop"
                     ? "border-[#d9a1aa] bg-[#f8eeee] text-ink"
                     : "border-[#e5dcdc] bg-white text-[#705f62]"
                 }`}
@@ -364,15 +311,8 @@ export default function OrderForm({
                   type="radio"
                   name="deliveryMethod"
                   value="shop"
-                  checked={
-                    formData.deliveryMethod ===
-                    "shop"
-                  }
-                  onChange={() =>
-                    handleDeliveryChange(
-                      "shop",
-                    )
-                  }
+                  checked={formData.deliveryMethod === "shop"}
+                  onChange={() => handleDeliveryChange("shop")}
                   className="accent-[#c06d81]"
                 />
 
@@ -381,8 +321,7 @@ export default function OrderForm({
 
               <label
                 className={`flex cursor-pointer items-center gap-2 rounded-xl border px-4 py-3 text-[14px] transition ${
-                  formData.deliveryMethod ===
-                  "home"
+                  formData.deliveryMethod === "home"
                     ? "border-[#d9a1aa] bg-[#f8eeee] text-ink"
                     : "border-[#e5dcdc] bg-white text-[#705f62]"
                 }`}
@@ -391,15 +330,8 @@ export default function OrderForm({
                   type="radio"
                   name="deliveryMethod"
                   value="home"
-                  checked={
-                    formData.deliveryMethod ===
-                    "home"
-                  }
-                  onChange={() =>
-                    handleDeliveryChange(
-                      "home",
-                    )
-                  }
+                  checked={formData.deliveryMethod === "home"}
+                  onChange={() => handleDeliveryChange("home")}
                   className="accent-[#c06d81]"
                 />
 
@@ -409,17 +341,13 @@ export default function OrderForm({
           </div>
 
           {/* Địa chỉ */}
-          {formData.deliveryMethod ===
-            "home" && (
+          {formData.deliveryMethod === "home" && (
             <div>
               <label
                 htmlFor="address"
                 className="mb-1.5 block text-[14px] font-medium text-[#705f62]"
               >
-                Địa chỉ nhận hàng{" "}
-                <span className="text-[#c06d81]">
-                  *
-                </span>
+                Địa chỉ nhận hàng <span className="text-[#c06d81]">*</span>
               </label>
 
               <textarea
@@ -430,9 +358,7 @@ export default function OrderForm({
                 placeholder="Nhập địa chỉ nhận hàng"
                 rows={3}
                 className={`w-full resize-none rounded-xl border bg-white px-4 py-3 text-[15px] text-ink outline-none transition placeholder:text-[#aaa0a2] focus:border-[#d9a1aa] focus:ring-2 focus:ring-[#f4dfe2] ${
-                  errors.address
-                    ? "border-[#d88b96]"
-                    : "border-[#e5dcdc]"
+                  errors.address ? "border-[#d88b96]" : "border-[#e5dcdc]"
                 }`}
               />
 
@@ -443,8 +369,7 @@ export default function OrderForm({
               )}
 
               <p className="mt-2 text-[12px] leading-relaxed  text-[#9a8d90]">
-                 Giá trên chưa gồm phí ship và
-                phí đóng gói. 
+                Giá trên chưa gồm phí ship và phí đóng gói.
               </p>
             </div>
           )}
@@ -455,9 +380,9 @@ export default function OrderForm({
               htmlFor="note"
               className="mb-1.5 block text-[14px] font-medium text-[#705f62]"
             >
-              Ghi chú{" "}
+              Bảng chúc mừng{" "}
               <span className="text-[12px] font-normal text-[#aaa0a2]">
-                (không bắt buộc)
+                (Nội dung)
               </span>
             </label>
 
@@ -466,7 +391,7 @@ export default function OrderForm({
               name="note"
               value={formData.note}
               onChange={handleChange}
-              placeholder="Ví dụ: Giao giờ hành chính..."
+              placeholder="Ví dụ: Chúc anh/chị khai trương hồng phát..."
               rows={3}
               className="
                 w-full
@@ -523,12 +448,9 @@ export default function OrderForm({
             disabled:opacity-60
           "
         >
-          {isSubmitting
-            ? "ĐANG GỬI ĐƠN..."
-            : "XÁC NHẬN ĐẶT HÀNG"}
+          {isSubmitting ? "ĐANG GỬI ĐƠN..." : "XÁC NHẬN ĐẶT HÀNG"}
         </button>
       </div>
     </div>
   );
 }
-
